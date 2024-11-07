@@ -24,8 +24,10 @@ export function ConnectWalletCard({
       }}
     >
       <div className="flex flex-grow items-center justify-start gap-3">
+        {/* eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text */}
         <img
           src={logo}
+          alt="Logo"
           onError={(e) => {
             e.currentTarget.onerror = null;
           }}

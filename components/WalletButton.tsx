@@ -72,7 +72,7 @@ export function WalletButton({ balance, openEmbeddedWalletModal }: WalletButtonO
         </div>
       </button>
       {status === "Connected" && (
-        <button onClick={disconnect}>
+        <button onClick={() => disconnect()}>
           <span title="Disconnect Wallet">
             <IoMdCloseCircle size={16} title="Disconnect Wallet" />
           </span>
