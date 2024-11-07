@@ -1,14 +1,15 @@
-import { type WalletClient } from "@leapwallet/elements";
+import { type WalletClient } from "@leapwallet/elements"; // Import WalletClient
 import { useWalletClient } from "@cosmos-kit/react";
 import { useMemo } from "react";
+import Long from "long";
+
 
 export const useElementsWalletClient = (): WalletClient => {
-
   const { client } = useWalletClient();
 
-
   const walletClient: WalletClient = useMemo(() => {
-    if(!client) return {} as WalletClient;
+    if (!client) return {} as WalletClient;
+
     return {
       enable: async (chainIds: string | string[]) => {
         return client?.enable!(chainIds);
@@ -31,9 +32,12 @@ export const useElementsWalletClient = (): WalletClient => {
             const result = await signer?.signDirect(signerAddress, signDoc);
             return {
               signature: new Uint8Array(
-                Buffer.from(result?.signature?.signature ?? '', "base64")
+                Buffer.from(result?.signature?.signature ?? "", "base64")
               ),
-              signed: result?.signed,
+              signed: {
+                ...result?.signed,
+                accountNumber: Long.fromValue(result?.signed?.accountNumber) as Long.Long, // Explicitly cast to Long.Long
+              },
             };
           },
           signAmino: async (address: string, signDoc: any) => {
